@@ -1,8 +1,7 @@
 // ignore_for_file: must_be_immutable, file_names
 
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:babe_assingment/shared/sqflight.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
@@ -12,7 +11,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
   var companyNameController = TextEditingController();
   var contactPersonNameController = TextEditingController();
   var contactPersonPhoneController = TextEditingController();
@@ -23,12 +21,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
 
-
   // salma will do that here eeee
-  List<String> items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-   ////////////////
+  List<String> items = ['micro', 'mini ', 'small', 'large'];
 
-  List<String> valuesOfCheckList = [] ;
+  ////////////////
+
+  List<String> Industries = ['industry1' , 'industry2','industry3' , 'industry4' ];
+  List<String> selectedIndustries= [] ;
+
+
   bool checkBoxv1 = false;
   bool checkBoxv2 = false;
   bool checkBoxv3 = false;
@@ -36,7 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String? selectedOption;
 
-  List<bool> checkedItems = List<bool>.filled(3, false);
 
   var formKey = GlobalKey<FormState>();
 
@@ -53,7 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Text(
                     'Register',
                     style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -100,8 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       prefixIcon: const Icon(Icons.email),
-                      label:
-                          const Text(' Contact Person Name (mandatory field)'),
+                      label: const Text(' Contact Person Name'),
                     ),
                   ),
                   const SizedBox(
@@ -125,8 +123,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           CheckboxListTile(
+
                             title: Text(
-                              'company industry 1 ',
+                              Industries[0],
                               style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
@@ -134,13 +133,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv1 = !checkBoxv1;
+                                if( checkBoxv1)
+                                  {
+                                    selectedIndustries.add( Industries[0]);
+                                  }
+                                else
+                                  {
+                                    selectedIndustries.remove( Industries[0]);
+                                  }
                               });
                             },
                             value: checkBoxv1,
                           ),
                           CheckboxListTile(
                             title: Text(
-                              'company industry 1 ',
+                              Industries[1],
                               style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
@@ -148,34 +155,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv2 = !checkBoxv2;
+                                if( checkBoxv2)
+                                {
+                                  selectedIndustries.add( Industries[1]);
+                                }
+                                else
+                                {
+                                  selectedIndustries.remove( Industries[1]);
+                                }
                               });
                             },
                             value: checkBoxv2,
                           ),
                           CheckboxListTile(
-                            title: Text(
-                              'company industry 1 ',
-                              style: TextStyle(fontSize: 17.0),
+                            title: Text(Industries[2], style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
                             checkColor: Colors.greenAccent,
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv3 = !checkBoxv3;
+                                if( checkBoxv3)
+                                {
+                                  selectedIndustries.add( Industries[2]);
+                                }
+                                else
+                                {
+                                  selectedIndustries.remove( Industries[2]);
+                                }
                               });
                             },
                             value: checkBoxv3,
                           ),
                           CheckboxListTile(
-                            title: Text(
-                              'company industry 1 ',
-                              style: TextStyle(fontSize: 17.0),
+                            title: Text( Industries[3], style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
                             checkColor: Colors.greenAccent,
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv4 = !checkBoxv4;
+                                if( checkBoxv4)
+                                {
+                                  selectedIndustries.add( Industries[3]);
+                                }
+                                else
+                                {
+                                  selectedIndustries.remove( Industries[3]);
+                                }
                               });
                             },
                             value: checkBoxv4,
@@ -270,10 +297,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 30,
                   ),
 
-
-
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
                     controller: companySizeController,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -285,17 +309,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      suffixIcon: DropdownButtonFormField( decoration: InputDecoration(
-                        hintText: "   Company Size" ,
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white))),
+                      suffixIcon: DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                            hintText: "   Company Size",
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white))),
                         value: selectedOption,
                         onChanged: (newValue) {
                           setState(() {
                             selectedOption = newValue;
+                            companySizeController.text = newValue!;
+                            print('company size is here ');
+                            print(companySizeController.text);
+                            print(newValue);
                           });
                         },
-                        items: items.map<DropdownMenuItem<String>>((String value) {
+                        items:
+                            items.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -304,7 +334,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-
 
 //// not mandatory here we need to update
                   const SizedBox(
@@ -318,9 +347,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value!.isEmpty) {
                         return 'Password must not be empty';
                       }
-                      if(passwordController.text.length < 8){
+                      if (passwordController.text.length < 8) {
                         return 'Password must  be more than 8 characters';
-
                       }
                       return null;
                     },
@@ -343,7 +371,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       if (value!.isEmpty) {
                         return 'Password must not be empty';
                       }
-                      if(passwordController.text != confirmPasswordController.text ){
+                      if (passwordController.text !=
+                          confirmPasswordController.text) {
                         return 'password is not matched  ';
                       }
                       return null;
@@ -361,6 +390,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(
                     height: 15,
+                  ),
+
+
+
+                  ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        print('every thing is ok ') ;
+                      }
+                    },
+                    child:
+                  const   Text('sign in', style: TextStyle(fontSize: 17)),
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        primary: Colors.teal[700],
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50))),
                   ),
                 ],
               ),
