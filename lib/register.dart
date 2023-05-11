@@ -398,10 +398,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         print('every thing is ok ') ;
+                        print(companyNameController.text);
+                        print(contactPersonNameController.text);
+                        print(selectedIndustries);
+                        print(contactPersonPhoneController.text);
+                        print(companyLocationController.text);
+                        print(companySizeController.text);
+                        print(passwordController.text);
+
+
+
                       }
                     },
                     child:
-                  const   Text('sign in', style: TextStyle(fontSize: 17)),
+                     Text('sign in', style: TextStyle(fontSize: 17)),
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: 40),
                         primary: Colors.teal[700],
