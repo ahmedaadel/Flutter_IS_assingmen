@@ -1,8 +1,8 @@
-// ignore_for_file: must_be_immutable, file_names
-
-import 'package:babe_assingment/database.dart';
-import 'package:babe_assingment/sqflight.dart';
+import 'package:assignment/database.dart';
+import 'package:assignment/select_location.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
@@ -17,19 +17,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var contactPersonPhoneController = TextEditingController();
   var emailController = TextEditingController();
   var companyAddressController = TextEditingController();
-  var companyLocationController = TextEditingController();
+  //var companyLocationController = TextEditingController();
   var companySizeController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
+  double long = 0.0;
+  double lat = 0.0;
 
   // salma will do that here eeee
   List<String> items = ['', 'micro', 'mini ', 'small', 'large'];
 
   ////////////////
 
-  List<String> Industries = ['industry1' , 'industry2','industry3' , 'industry4' ];
-  List<String> selectedIndustries= [] ;
-
+  List<String> Industries = [
+    'industry1',
+    'industry2',
+    'industry3',
+    'industry4'
+  ];
+  List<String> selectedIndustries = [];
 
   bool checkBoxv1 = false;
   bool checkBoxv2 = false;
@@ -37,7 +43,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool checkBoxv4 = false;
 
   String? selectedOption;
-
 
   var formKey = GlobalKey<FormState>();
 
@@ -124,7 +129,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Column(
                         children: [
                           CheckboxListTile(
-
                             title: Text(
                               Industries[0],
                               style: TextStyle(fontSize: 17.0),
@@ -134,14 +138,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv1 = !checkBoxv1;
-                                if( checkBoxv1)
-                                  {
-                                    selectedIndustries.add( Industries[0]);
-                                  }
-                                else
-                                  {
-                                    selectedIndustries.remove( Industries[0]);
-                                  }
+                                if (checkBoxv1) {
+                                  selectedIndustries.add(Industries[0]);
+                                } else {
+                                  selectedIndustries.remove(Industries[0]);
+                                }
                               });
                             },
                             value: checkBoxv1,
@@ -156,53 +157,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv2 = !checkBoxv2;
-                                if( checkBoxv2)
-                                {
-                                  selectedIndustries.add( Industries[1]);
-                                }
-                                else
-                                {
-                                  selectedIndustries.remove( Industries[1]);
+                                if (checkBoxv2) {
+                                  selectedIndustries.add(Industries[1]);
+                                } else {
+                                  selectedIndustries.remove(Industries[1]);
                                 }
                               });
                             },
                             value: checkBoxv2,
                           ),
                           CheckboxListTile(
-                            title: Text(Industries[2], style: TextStyle(fontSize: 17.0),
+                            title: Text(
+                              Industries[2],
+                              style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
                             checkColor: Colors.greenAccent,
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv3 = !checkBoxv3;
-                                if( checkBoxv3)
-                                {
-                                  selectedIndustries.add( Industries[2]);
-                                }
-                                else
-                                {
-                                  selectedIndustries.remove( Industries[2]);
+                                if (checkBoxv3) {
+                                  selectedIndustries.add(Industries[2]);
+                                } else {
+                                  selectedIndustries.remove(Industries[2]);
                                 }
                               });
                             },
                             value: checkBoxv3,
                           ),
                           CheckboxListTile(
-                            title: Text( Industries[3], style: TextStyle(fontSize: 17.0),
+                            title: Text(
+                              Industries[3],
+                              style: TextStyle(fontSize: 17.0),
                             ),
                             controlAffinity: ListTileControlAffinity.leading,
                             checkColor: Colors.greenAccent,
                             onChanged: (value) {
                               setState(() {
                                 checkBoxv4 = !checkBoxv4;
-                                if( checkBoxv4)
-                                {
-                                  selectedIndustries.add( Industries[3]);
-                                }
-                                else
-                                {
-                                  selectedIndustries.remove( Industries[3]);
+                                if (checkBoxv4) {
+                                  selectedIndustries.add(Industries[3]);
+                                } else {
+                                  selectedIndustries.remove(Industries[3]);
                                 }
                               });
                             },
@@ -219,7 +215,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: contactPersonPhoneController,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Phone Number must not be empty';
+                        return 'Phone must not be Empty';
+                      } else if (value.toString().length < 11) {
+                        return 'Please enter valid phone number';
                       }
                       return null;
                     },
@@ -239,8 +237,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'email must not be empty';
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      } else if (!value.toString().contains('@') ||
+                          !value.toString().contains('.')) {
+                        return 'Please enter valid email';
                       }
                       return null;
                     },
@@ -278,13 +279,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   TextFormField(
-                    keyboardType: TextInputType.name,
-                    controller: companyLocationController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'email must not be empty';
-                      }
-                      return null;
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              // ignore: prefer_const_constructors
+                              builder: (context) => SelectLocationScreen()));
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -387,36 +387,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 15,
                   ),
 
-
-
                   ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        print('every thing is ok ') ;
+                        print('every thing is ok ');
                         print(companyNameController.text);
                         print(contactPersonNameController.text);
                         print(selectedIndustries);
                         print(contactPersonPhoneController.text);
-                        print(companyLocationController.text);
+                        //print(companyLocationController.text);
                         print(companySizeController.text);
                         print(passwordController.text);
-                        String selectedIndustString='' ;
-                        for (int i =0 ; i < selectedIndustries.length ; i++)
-                          {
-                           if(selectedIndustString == '') selectedIndustString= selectedIndustries[0];
-                           else  selectedIndustString = selectedIndustString+','+selectedIndustries[i] ;
-                          }
-                        print ('selected items in industry is ');
-                        print (selectedIndustString);
+                        String selectedIndustString = '';
+                        for (int i = 0; i < selectedIndustries.length; i++) {
+                          if (selectedIndustString == '')
+                            selectedIndustString = selectedIndustries[0];
+                          else
+                            selectedIndustString = selectedIndustString +
+                                ',' +
+                                selectedIndustries[i];
+                        }
+                        print('selected items in industry is ');
+                        print(selectedIndustString);
 
-
-                        DB.instertdb(companyNameController.text,
-                            contactPersonNameController.text,
-                            contactPersonPhoneController.text,
-                            emailController.text,
-                            companyAddressController.text,
-                            2.011, 3.011, passwordController.text).
-                        then((value) {print(value); print("done");}).catchError((error){
+                        DB
+                            .instertdb(
+                                Contact_Person_Name:
+                                    contactPersonNameController.text,
+                                Company_Name: companyNameController.text,
+                                compenyInsustry: selectedIndustString,
+                                Contact_Person_Phone:
+                                    contactPersonPhoneController.text,
+                                Email: emailController.text,
+                                Company_Address: companyAddressController.text,
+                                Company_Location_Lat: 2.011,
+                                Company_Location_Long: 3.011,
+                                password: passwordController.text)
+                            .then((value) {
+                          print(value);
+                          print("done");
+                        }).catchError((error) {
                           print(error);
                         });
                       }
@@ -427,7 +437,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50))),
                     child:
-                     const Text('sign in', style: TextStyle(fontSize: 17)),
+                        const Text('sign in', style: TextStyle(fontSize: 17)),
                   ),
                 ],
               ),

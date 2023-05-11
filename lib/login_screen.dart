@@ -1,7 +1,7 @@
-import 'package:babe_assingment/register.dart';
+import 'package:assignment/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:text_divider/text_divider.dart';
-
+import 'package:assignment/database.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -25,10 +25,9 @@ class _MyAppState extends State<Login> {
 
   var username = TextEditingController();
 
-
   Widget signsheet(context) {
     return Padding(
-      padding:const  EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 19),
+      padding: const EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 19),
       child: SingleChildScrollView(
         child: Form(
           key: formkey2,
@@ -186,18 +185,21 @@ class _MyAppState extends State<Login> {
                           height: 25,
                         ),
                         TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Email address can not be empty';
-                            }
-                            return null;
-                          },
                           controller: emailctr,
                           keyboardType: TextInputType.emailAddress,
-                          decoration:const InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                             suffixIcon: Icon(Icons.person),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            } else if (!value.toString().contains('@') ||
+                                !value.toString().contains('.')) {
+                              return 'Please enter valid email';
+                            }
+                            return null;
+                          },
                         ),
                         TextFormField(
                           validator: (value) {
@@ -218,7 +220,7 @@ class _MyAppState extends State<Login> {
                                   });
                                 },
                                 icon: isscure
-                                    ?const  Icon(Icons.visibility_sharp)
+                                    ? const Icon(Icons.visibility_sharp)
                                     : const Icon(Icons.visibility_off)),
                           ),
                         ),
@@ -226,23 +228,29 @@ class _MyAppState extends State<Login> {
                           height: 20,
                         ),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (formkey.currentState!.validate()) {
+                              bool result = await DB.login(
+                                  email: emailctr.text, password: passctr.text);
+
+                              if (result) {}
+                              //TODO here to take action on login
                             }
                           },
                           style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(horizontal: 40),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 40),
                               primary: Colors.teal[700],
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50))),
-                          child:const
-                          Text('sign in', style: TextStyle(fontSize: 17)),
+                          child: const Text('sign in',
+                              style: TextStyle(fontSize: 17)),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextDivider.horizontal(
-                            text: const  Text('or'),
+                            text: const Text('or'),
                             color: Colors.black,
                             size: 50,
                             thickness: .7),
@@ -258,7 +266,11 @@ class _MyAppState extends State<Login> {
                                     fontWeight: FontWeight.bold)),
                             TextButton(
                                 onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder:(context) => RegisterScreen(),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => RegisterScreen(),
+                                      ));
                                 },
                                 child: const Text(
                                   'Sign up',

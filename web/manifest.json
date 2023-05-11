@@ -1,6 +1,6 @@
 {
-    "name": "babe_assingment",
-    "short_name": "babe_assingment",
+    "name": "assignment",
+    "short_name": "assignment",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
