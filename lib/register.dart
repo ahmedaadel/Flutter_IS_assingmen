@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, file_names
 
-import 'package:babe_assingment/shared/sqflight.dart';
+import 'package:babe_assingment/sqflight.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -405,8 +405,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         print(companyLocationController.text);
                         print(companySizeController.text);
                         print(passwordController.text);
-
-
 
                       }
                     },
