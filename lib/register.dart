@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, file_names
 
+import 'package:babe_assingment/database.dart';
 import 'package:babe_assingment/sqflight.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var confirmPasswordController = TextEditingController();
 
   // salma will do that here eeee
-  List<String> items = ['micro', 'mini ', 'small', 'large'];
+  List<String> items = ['', 'micro', 'mini ', 'small', 'large'];
 
   ////////////////
 
@@ -299,12 +300,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                   TextFormField(
                     controller: companySizeController,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'email must not be empty';
-                      }
-                      return null;
-                    },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -405,16 +400,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         print(companyLocationController.text);
                         print(companySizeController.text);
                         print(passwordController.text);
+                        String selectedIndustString='' ;
+                        for (int i =0 ; i < selectedIndustries.length ; i++)
+                          {
+                           if(selectedIndustString == '') selectedIndustString= selectedIndustries[0];
+                           else  selectedIndustString = selectedIndustString+','+selectedIndustries[i] ;
+                          }
+                        print ('selected items in industry is ');
+                        print (selectedIndustString);
 
+
+                        DB.instertdb(companyNameController.text,
+                            contactPersonNameController.text,
+                            contactPersonPhoneController.text,
+                            emailController.text,
+                            companyAddressController.text,
+                            2.011, 3.011, passwordController.text).
+                        then((value) {print(value); print("done");}).catchError((error){
+                          print(error);
+                        });
                       }
                     },
-                    child:
-                     Text('sign in', style: TextStyle(fontSize: 17)),
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: 40),
                         primary: Colors.teal[700],
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50))),
+                    child:
+                     const Text('sign in', style: TextStyle(fontSize: 17)),
                   ),
                 ],
               ),

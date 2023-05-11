@@ -28,7 +28,7 @@ class _MyAppState extends State<Login> {
 
   Widget signsheet(context) {
     return Padding(
-      padding: EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 19),
+      padding:const  EdgeInsets.only(left: 10, bottom: 6, right: 10, top: 19),
       child: SingleChildScrollView(
         child: Form(
           key: formkey2,
@@ -36,7 +36,7 @@ class _MyAppState extends State<Login> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -55,7 +55,7 @@ class _MyAppState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -74,7 +74,7 @@ class _MyAppState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -94,7 +94,7 @@ class _MyAppState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -118,19 +118,19 @@ class _MyAppState extends State<Login> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                 child: ElevatedButton(
                   onPressed: () {
                     if (formkey2.currentState!.validate()) {
                       Navigator.of(context).pop();
                     }
                   },
-                  child:  Text('sign up', style: TextStyle(fontSize: 17)),
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
                       primary: Colors.teal[300],
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50))),
+                  child: const Text('sign up', style: TextStyle(fontSize: 17)),
                 ),
               ),
             ],
@@ -159,7 +159,7 @@ class _MyAppState extends State<Login> {
                   ),
                   color: Colors.white),
               child: Padding(
-                padding: EdgeInsets.all(21),
+                padding: const EdgeInsets.all(21),
                 child: Form(
                   key: formkey,
                   child: Column(
@@ -194,7 +194,7 @@ class _MyAppState extends State<Login> {
                           },
                           controller: emailctr,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
+                          decoration:const InputDecoration(
                             labelText: 'Email',
                             suffixIcon: Icon(Icons.person),
                           ),
@@ -218,8 +218,8 @@ class _MyAppState extends State<Login> {
                                   });
                                 },
                                 icon: isscure
-                                    ? Icon(Icons.visibility_sharp)
-                                    : Icon(Icons.visibility_off)),
+                                    ?const  Icon(Icons.visibility_sharp)
+                                    : const Icon(Icons.visibility_off)),
                           ),
                         ),
                         const SizedBox(
@@ -230,19 +230,19 @@ class _MyAppState extends State<Login> {
                             if (formkey.currentState!.validate()) {
                             }
                           },
-                          child:
-                          Text('sign in', style: TextStyle(fontSize: 17)),
                           style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(horizontal: 40),
+                              padding: const EdgeInsets.symmetric(horizontal: 40),
                               primary: Colors.teal[700],
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50))),
+                          child:const
+                          Text('sign in', style: TextStyle(fontSize: 17)),
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextDivider.horizontal(
-                            text: Text('or'),
+                            text: const  Text('or'),
                             color: Colors.black,
                             size: 50,
                             thickness: .7),
